@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.luckyryan.sample.dto.SignupForm;
-
 
 /**
  * User: ryan
@@ -20,7 +18,7 @@ public class StatusController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public ModelAndView viewStatus() {
-        return new ModelAndView(PAGE_INDEX, "signupForm", new SignupForm());
+        return new ModelAndView(PAGE_INDEX, "signupForm", "");
     }
     
     @RequestMapping(value = "/security-error", method = RequestMethod.GET)

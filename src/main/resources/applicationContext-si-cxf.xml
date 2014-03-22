@@ -19,14 +19,15 @@
     <int:channel id="saveInfoFormChannelREST" />
 
     <int:chain input-channel="getInfoFormChannelREST">
-    	<int:transformer ref="userTransformer" method="stringToLong" />
+    	<int:transformer ref="transformer" method="stringToLong" />
     	<int:service-activator ref="hostStatusInfoService" method="getInfo" />
-    
+    	<int:transformer ref="transformer" method="hostInfoToDto" />
     </int:chain>
     
     <int:chain input-channel="saveInfoFormChannelREST">
+    	<int:transformer ref="transformer" method="dtoToHostInfo" />
     	<int:service-activator ref="hostStatusInfoService" method="saveInfo" />
-    
+    	<int:transformer ref="transformer" method="hostInfoToDto" />
     </int:chain>
 
 </beans>
