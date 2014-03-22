@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <!-- wire rest with SI -->
+    <int:gateway id="hostInfoServiceRESTGateway"
+    			 service-interface="com.luckyryan.sample.ws.HostStatusInfoServiceREST"
+    			 default-request-channel="saveInfoFormChannelREST">
+    			 
+    	<int:method name="getInfo" request-channel="getInfoFormChannelREST" />		 
+    	<int:method name="saveInfo" request-channel="saveInfoFormChannelREST" />
+    </int:gateway>
+
+   
+    <!-- route SOAP calls to WS interface -->
+    <int:channel id="getInfoFormChannelREST" />
+    <int:channel id="saveInfoFormChannelREST" />
+
+    <int:chain input-channel="getInfoFormChannelREST">
+    	<int:transformer ref="userTransformer" method="stringToLong" />
+    	<int:service-activator ref="hostStatusInfoService" method="getInfo" />
+    
+    </int:chain>
+    
+    <int:chain input-channel="saveInfoFormChannelREST">
+    	<int:service-activator ref="hostStatusInfoService" method="saveInfo" />
+    
+    </int:chain>
+
+</beans>
