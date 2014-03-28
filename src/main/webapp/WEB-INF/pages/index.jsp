@@ -44,14 +44,16 @@
     		alert("Run Command ing...");
     		
     		$.ajax({
-	            type: "post",
-	            dataType: "json",
-	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/create",
-	            data: {hostMacAddress:"B4:B0:20:52:41:53",commandStr:"cmd /c tasklist",status:"Created"},
-	            complete :function() {
-	            },
-	            success: function(data){	            	
-	            }});
+				type: "POST",
+				url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/create",
+				data: JSON.stringify({hostMacAddress:"B4:B0:20:52:41:53",commandStr:"",status:"Created"}),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(data){alert(data);},
+				failure: function(errMsg) {
+					alert(errMsg);
+				}
+			});
     		
     	}
     	
