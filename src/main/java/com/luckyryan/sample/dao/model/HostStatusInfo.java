@@ -16,6 +16,8 @@ public class HostStatusInfo {
 	private double totalMem;
 	private double freeMem;
 	
+	private String macAddress;
+	
 	public Long getId() {
 		return id;
 	}
@@ -51,5 +53,11 @@ public class HostStatusInfo {
 	}
 	public void setFreeMem(double freeMem) {
 		this.freeMem = freeMem;
+	}
+	public String getMacAddress() {
+		return macAddress;
+	}
+	public void setMacAddress(String macAddress) {
+		this.macAddress = macAddress;
 	}	
 }

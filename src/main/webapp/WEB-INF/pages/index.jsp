@@ -17,6 +17,7 @@
     		//$('body').everyTime('1das','C',function(){
     		$('body').everyTime('5s','C',function(){
     			refreshUser();
+    			refreshCommand();
     		},0,true);
     		
     	});
@@ -29,10 +30,53 @@
 	            complete :function() {
 	            },
 	            success: function(msg){
+	            	$("#statusPanel1").html(JSON.stringify(msg));
 	            	
-	            	$("#result2").append("<h1>New Status: </h1>");
-	            	$("#result2").append(JSON.stringify(msg));   	
-	            
+	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Host Name</td><td>Mac Address</td><td>CPU Total Used</td><td>Command</td></tr>" +
+	            		"<tr><td>"+msg.hostname+"</td><td>"+msg.macAddress+
+	            		"</td><td>"+msg.cpuTotalUsed+"</td><td><button type='button' onclick='runCommand()'>Run Tasklist Command</button></td></tr></table>";
+	            		
+	            		$("#statusPanel2").html(tablecontent);
+	            }});
+    	}
+    	
+    	function runCommand() {
+    		alert("Run Command ing...");
+    		
+    		$.ajax({
+	            type: "post",
+	            dataType: "json",
+	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/create",
+	            data: {hostMacAddress:"B4:B0:20:52:41:53",commandStr:"cmd /c tasklist",status:"Created"},
+	            complete :function() {
+	            },
+	            success: function(data){	            	
+	            }});
+    		
+    	}
+    	
+    	function refreshCommand() {
+    		$.ajax({
+	            type: "get",
+	            dataType: "json",
+	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/allcommand/B4:B0:20:52:41:53",
+	            complete :function() {
+	            },
+	            success: function(commandArray){
+	            	$("#statusPanel3").html(JSON.stringify(commandArray));
+	            	
+	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Id</td><td>Mac Address</td><td>Command</td><td>Status</td><td>Result</td></tr>";
+	            		
+	            	$.each(commandArray, function(i, command){   
+	            	    tablecontent += "<tr><td>"+command.id+"</td><td>"+command.hostMacAddress+"</td><td>"+
+	            	    	command.commandStr+"</td><td>" +	            	    	 
+	            	    	command.status+"</td><td>" + 
+	            	    	command.resultStr+"</td></tr>";
+	            	});  	
+	            	
+	            	tablecontent += "</table>";
+	            	
+	            	$("#statusPanel4").html(tablecontent);
 	            }});
     	}
     
@@ -42,17 +86,15 @@
 </head>
 <body>
 
-<h1>Test Sample</h1>
+<h1>Host Status Info List: </h1>
 
+<div id="statusPanel1"> Test1 </div>
+<div id="statusPanel2"> Test2 </div>
 
-<div id="result1">
-	Result1
-</div>
+<h1>User Command List: </h1>
 
-
-<div id="result2">
-	Result2
-</div>
+<div id="statusPanel3"> Test3 </div>
+<div id="statusPanel4"> Test4 </div>
 
 </body>
 </html>

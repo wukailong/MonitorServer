@@ -22,5 +22,15 @@ http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
             <bean class="com.luckyryan.sample.service.ExceptionHandler"/>
         </jaxrs:providers>
     </jaxrs:server>
+    
+    <jaxrs:server id="commandServiceREST" address="/command">
+        <jaxrs:serviceBeans>
+            <ref bean="commandServiceRESTGateway"/>
+        </jaxrs:serviceBeans>
+        <jaxrs:providers>
+            <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+            <bean class="com.luckyryan.sample.service.ExceptionHandler"/>
+        </jaxrs:providers>
+    </jaxrs:server>
        
 </beans>
