@@ -9,6 +9,8 @@
     <script type="text/javascript" src='<c:url value="/main/js/jquery-2.0.0.min.js"></c:url>'></script>
     <script type="text/javascript" src='<c:url value="/main/js/jquery.timer.js"></c:url>'></script>
     <script type="text/javascript">
+    
+    	var mac_address = '2C:26:20:52:41:53';
     	
     	$(document).ready(function(){
     		
@@ -26,27 +28,32 @@
     		$.ajax({
 	            type: "get",
 	            dataType: "json",
-	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/hostInfo/hostStatusInfoService/hostInfo/1",
+	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/hostInfo/hostStatusInfoService/allHost/1",
 	            complete :function() {
 	            },
-	            success: function(msg){
-	            	$("#statusPanel1").html(JSON.stringify(msg));
+	            success: function(hostInfoArray){
+					$("#statusPanel1").html(JSON.stringify(hostInfoArray));
 	            	
-	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Host Name</td><td>Mac Address</td><td>CPU Total Used</td><td>Command</td></tr>" +
-	            		"<tr><td>"+msg.hostname+"</td><td>"+msg.macAddress+
-	            		"</td><td>"+msg.cpuTotalUsed+"</td><td><button type='button' onclick='runCommand()'>Run Tasklist Command</button></td></tr></table>";
+	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Host Name</td><td>Mac Address</td><td>CPU Total Used</td><td>Command</td></tr>";
 	            		
-	            		$("#statusPanel2").html(tablecontent);
+	            	$.each(hostInfoArray, function(i, hostInfo){   
+	            	    tablecontent += "<tr><td>"+hostInfo.hostname+"</td><td>"+hostInfo.macAddress+
+	            		"</td><td>"+hostInfo.cpuTotalUsed+"</td><td><button type='button' onclick='runCommand()'>Run Tasklist Command</button></td></tr>";
+	            	});  	
+	            	
+	            	tablecontent += "</table>";
+	            	
+	            	$("#statusPanel2").html(tablecontent);
 	            }});
     	}
     	
     	function runCommand() {
     		alert("Run Command ing...");
-    		
-    		$.ajax({
+			
+			$.ajax({
 				type: "POST",
 				url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/create",
-				data: JSON.stringify({hostMacAddress:"B4:B0:20:52:41:53",commandStr:"",status:"Created"}),
+				data: JSON.stringify({hostMacAddress:mac_address,commandStr:"ipconfig",status:"Created"}),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				success: function(data){alert(data);},
@@ -61,7 +68,7 @@
     		$.ajax({
 	            type: "get",
 	            dataType: "json",
-	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/allcommand/B4:B0:20:52:41:53",
+	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/allcommand/"+mac_address,
 	            complete :function() {
 	            },
 	            success: function(commandArray){
@@ -73,7 +80,7 @@
 	            	    tablecontent += "<tr><td>"+command.id+"</td><td>"+command.hostMacAddress+"</td><td>"+
 	            	    	command.commandStr+"</td><td>" +	            	    	 
 	            	    	command.status+"</td><td>" + 
-	            	    	command.resultStr+"</td></tr>";
+	            	    	"<span title='" + command.resultStr + "'>Command Result</span></td></tr>";
 	            	});  	
 	            	
 	            	tablecontent += "</table>";
@@ -90,13 +97,13 @@
 
 <h1>Host Status Info List: </h1>
 
-<div id="statusPanel1"> Test1 </div>
 <div id="statusPanel2"> Test2 </div>
+<div id="statusPanel1"> Test1 </div>
 
 <h1>User Command List: </h1>
 
-<div id="statusPanel3"> Test3 </div>
 <div id="statusPanel4"> Test4 </div>
+<div id="statusPanel3"> Test3 </div>
 
 </body>
 </html>

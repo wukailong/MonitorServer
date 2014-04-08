@@ -11,9 +11,9 @@ import com.luckyryan.sample.exception.InvalidUserException;
 
 public interface UserCommandDao extends CrudRepository<UserCommand,Long> {
 	
-	@Query("select u from UserCommand u where u.status = 'Created' and u.hostMacAddress = :macAddress order by creationDate asc")  
+	@Query("select u from UserCommand u where u.status = 'Created' and u.hostMacAddress = :macAddress order by u.creationDate asc")  
 	public List<UserCommand> getUnProcessCommand(@Param("macAddress") String macAddress) throws InvalidUserException;
 	
-	@Query("select u from UserCommand u where u.hostMacAddress = :macAddress order by creationDate desc")  
-	public List<UserCommand> getAll(@Param("macAddress") String macAddress) throws InvalidUserException;
+	@Query("select u from UserCommand u order by u.creationDate desc")  
+	public List<UserCommand> getAll() throws InvalidUserException;
 }

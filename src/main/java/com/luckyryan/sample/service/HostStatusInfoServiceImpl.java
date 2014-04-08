@@ -1,5 +1,7 @@
 package com.luckyryan.sample.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,11 @@ public class HostStatusInfoServiceImpl implements HostStatusInfoService {
             throw new InvalidUserException("Sorry Dave");
         }
 		
+		HostStatusInfo host = dao.getHostByMacAddress(info.getMacAddress());
+		if (host != null && host.getId() != null) {
+			info.setId(host.getId());
+		}
+		
         return dao.save(info);
 	}
 
@@ -29,5 +36,15 @@ public class HostStatusInfoServiceImpl implements HostStatusInfoService {
         }
 		
 		return dao.findOne(id);
+	}
+
+	public HostStatusInfo getHostByMacAddress(String macAddress) throws InvalidUserException {
+		
+		return dao.getHostByMacAddress(macAddress);
+	}
+
+	public List<HostStatusInfo> getAll(Long userId) throws InvalidUserException {
+		
+		return dao.getAll();
 	}
 }

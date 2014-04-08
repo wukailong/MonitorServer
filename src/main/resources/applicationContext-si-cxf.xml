@@ -11,6 +11,8 @@
     			 
     	<int:method name="getInfo" request-channel="getInfoFormChannelREST" />		 
     	<int:method name="saveInfo" request-channel="saveInfoFormChannelREST" />
+    	<int:method name="getAll" request-channel="allInfoFormChannelREST" />    	
+    	
     </int:gateway>
     
     <int:gateway id="commandServiceRESTGateway"
@@ -27,12 +29,14 @@
     <!-- route SOAP calls to WS interface -->
     <int:channel id="getInfoFormChannelREST" />
     <int:channel id="saveInfoFormChannelREST" />
+    <int:channel id="allInfoFormChannelREST" />
     
     <int:channel id="saveCommandFormChannelREST" />
     <int:channel id="getCommandChannelREST" />
     <int:channel id="getLastCommandChannelREST" />
     <int:channel id="getAllCommandChannelREST" />
 
+	<!-- Host Info -->
     <int:chain input-channel="getInfoFormChannelREST">
     	<int:transformer ref="transformer" method="stringToLong" />
     	<int:service-activator ref="hostStatusInfoService" method="getInfo" />
@@ -43,7 +47,13 @@
     	<int:service-activator ref="hostStatusInfoService" method="saveInfo" />
     	<int:transformer ref="transformer" method="hostInfoToDto" />
     </int:chain>
+    <int:chain input-channel="allInfoFormChannelREST">
+    	<int:transformer ref="transformer" method="stringToLong" />
+    	<int:service-activator ref="hostStatusInfoService" method="getAll" />
+    	<int:transformer ref="transformer" method="hostInfoListToDtoList" />
+    </int:chain>
     
+    <!-- User Command -->
     <int:chain input-channel="saveCommandFormChannelREST">
     	<int:transformer ref="transformer" method="dtoToUserCommand" />
     	<int:service-activator ref="userCommandService" method="saveCommand" />

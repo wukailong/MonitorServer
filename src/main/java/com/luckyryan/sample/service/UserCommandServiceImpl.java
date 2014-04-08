@@ -31,7 +31,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 	public UserCommand getLastUnProcessCommand(String macAddress)
 			throws InvalidUserException {
 		
-		UserCommand command = null;
+		UserCommand command = new UserCommand();
 		List<UserCommand> commands = dao.getUnProcessCommand(macAddress); 
 		if (commands.size() > 0) {
 			command = commands.get(0);
@@ -42,7 +42,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 	public List<UserCommand> getAll(String macAddress)
 			throws InvalidUserException {
 		
-		return dao.getAll(macAddress);
+		return dao.getAll();
 	}
 
 	

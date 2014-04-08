@@ -3,7 +3,6 @@ package com.luckyryan.sample.transformer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Component;
 
 import com.luckyryan.sample.dao.model.HostStatusInfo;
@@ -15,7 +14,8 @@ import com.luckyryan.sample.dto.UserCommandDTO;
 @Component
 public class Transformer {
 
-    private DozerBeanMapper mapper = new DozerBeanMapper();
+//    private DozerBeanMapper mapper = new DozerBeanMapper();
+//	UserCommandDTO dto = mapper.map(info, UserCommandDTO.class);
 
     public HostStatusInfo dtoToHostInfo(HostStatusInfoDTO dto) {
     	HostStatusInfo info = new HostStatusInfo();
@@ -47,6 +47,25 @@ public class Transformer {
         return dto;
     }
     
+    public List<HostStatusInfoDTO> hostInfoListToDtoList(List<HostStatusInfo> infoList) {
+    	List<HostStatusInfoDTO> dtoList = new ArrayList<HostStatusInfoDTO>();
+    	for (HostStatusInfo info : infoList) {
+    		
+    		HostStatusInfoDTO dto = new HostStatusInfoDTO();
+    		dto.setId(info.getId());
+        	dto.setHostname(info.getHostname());
+        	dto.setTotalMem(info.getTotalMem());
+        	dto.setFreeMem(info.getFreeMem());
+        	dto.setCpuTotalUsed(info.getCpuTotalUsed());
+        	dto.setCpuCount(info.getCpuCount());
+        	dto.setMacAddress(info.getMacAddress());
+        	dtoList.add(dto);
+    	}
+        return dtoList;
+    }
+    
+    
+    
     public Long stringToLong(String id) {
     	return Long.valueOf(id);
     }
@@ -55,24 +74,49 @@ public class Transformer {
     	return str;
     }
     
-    public UserCommandDTO userCommandToDto(UserCommand info) {
+    public UserCommandDTO userCommandToDto(UserCommand cmd) {
     	
-    	UserCommandDTO dto = mapper.map(info, UserCommandDTO.class);
+    	UserCommandDTO dto = new UserCommandDTO();
+    	dto.setId(cmd.getId());
+    	dto.setCommandStr(cmd.getCommandStr());
+    	dto.setCreationDate(cmd.getCreationDate());
+    	dto.setEndDate(cmd.getEndDate());
+    	dto.setHostMacAddress(cmd.getHostMacAddress());
+    	dto.setResultStr(cmd.getResultStr());
+    	dto.setStatus(cmd.getStatus());    	
+    	
         return dto;
     }
     
     public List<UserCommandDTO> userCmdListToDtoList(List<UserCommand> cmdList) {
     	List<UserCommandDTO> dtoList = new ArrayList<UserCommandDTO>();
     	for (UserCommand cmd : cmdList) {
-    		dtoList.add(mapper.map(cmd, UserCommandDTO.class));
+    		
+    		UserCommandDTO dto = new UserCommandDTO();
+        	dto.setId(cmd.getId());
+        	dto.setCommandStr(cmd.getCommandStr());
+        	dto.setCreationDate(cmd.getCreationDate());
+        	dto.setEndDate(cmd.getEndDate());
+        	dto.setHostMacAddress(cmd.getHostMacAddress());
+        	dto.setResultStr(cmd.getResultStr());
+        	dto.setStatus(cmd.getStatus());    	
+        	dtoList.add(dto);
     	}
         return dtoList;
     }
     
-    public UserCommand dtoToUserCommand(UserCommandDTO info) {
+    public UserCommand dtoToUserCommand(UserCommandDTO dto) {
     	
-    	UserCommand command = mapper.map(info, UserCommand.class);
-        return command;
+    	UserCommand cmd = new UserCommand();
+    	cmd.setId(dto.getId());
+    	cmd.setCommandStr(dto.getCommandStr());
+    	cmd.setCreationDate(dto.getCreationDate());
+    	cmd.setEndDate(dto.getEndDate());
+    	cmd.setHostMacAddress(dto.getHostMacAddress());
+    	cmd.setResultStr(dto.getResultStr());
+    	cmd.setStatus(dto.getStatus());    	
+    	
+        return cmd;
     }
 
 }
