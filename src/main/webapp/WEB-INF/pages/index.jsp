@@ -38,7 +38,7 @@
 	            		
 	            	$.each(hostInfoArray, function(i, hostInfo){   
 	            	    tablecontent += "<tr><td>"+hostInfo.hostname+"</td><td>"+hostInfo.macAddress+
-	            		"</td><td>"+hostInfo.cpuTotalUsed+"</td><td><button type='button' onclick='runCommand()'>Run Tasklist Command</button></td></tr>";
+	            		"</td><td>"+hostInfo.cpuTotalUsed+"</td><td><button type='button' onclick='runCommand(\"" + hostInfo.macAddress + "\")'>Run Tasklist Command</button></td></tr>";
 	            	});  	
 	            	
 	            	tablecontent += "</table>";
@@ -47,18 +47,17 @@
 	            }});
     	}
     	
-    	function runCommand() {
-    		alert("Run Command ing...");
-			
+    	function runCommand(macAddress) {
+    		
 			$.ajax({
 				type: "POST",
 				url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/create",
-				data: JSON.stringify({hostMacAddress:mac_address,commandStr:"ipconfig",status:"Created"}),
+				data: JSON.stringify({hostMacAddress:macAddress,commandStr:"tasklist",status:"Created"}),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				success: function(data){alert(data);},
 				failure: function(errMsg) {
-					alert(errMsg);
+					
 				}
 			});
     		
@@ -74,13 +73,13 @@
 	            success: function(commandArray){
 	            	$("#statusPanel3").html(JSON.stringify(commandArray));
 	            	
-	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Id</td><td>Mac Address</td><td>Command</td><td>Status</td><td>Result</td></tr>";
+	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Id</td><td>Mac Address</td><td>Command</td><td>Status</td><td>Result</td><td>End Date</td></tr>";
 	            		
 	            	$.each(commandArray, function(i, command){   
 	            	    tablecontent += "<tr><td>"+command.id+"</td><td>"+command.hostMacAddress+"</td><td>"+
 	            	    	command.commandStr+"</td><td>" +	            	    	 
 	            	    	command.status+"</td><td>" + 
-	            	    	"<span title='" + command.resultStr + "'>Command Result</span></td></tr>";
+	            	    	"<span title='" + command.resultStr + "'>Command Result</span></td><td>" + command.endDate + "</td></tr>";
 	            	});  	
 	            	
 	            	tablecontent += "</table>";
