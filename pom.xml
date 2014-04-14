@@ -26,17 +26,17 @@
         <jquery.version>1.9.0</jquery.version>
         
         <!-- JDBC Setting -->
-        <hibernate.dialect>org.hibernate.dialect.MySQLInnoDBDialect</hibernate.dialect>
+        <hibernate.dialect>org.hibernate.dialect.PostgreSQLDialect</hibernate.dialect>
         <hibernate.indexBase>target/indexes</hibernate.indexBase>
         <cache.path>target/cache</cache.path>
 
-        <jdbc.username>root</jdbc.username>
-        <jdbc.password>123456</jdbc.password>
-        <jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
+        <jdbc.username>postgres</jdbc.username>
+        <jdbc.password>111111</jdbc.password>
+        <jdbc.driverClassName>org.postgresql.Driver</jdbc.driverClassName>
         <jdbc.database.name>sample_monitor</jdbc.database.name>
-        <jdbc.database.server>localhost</jdbc.database.server>
+        <jdbc.database.server>192.168.0.116</jdbc.database.server>
         <jdbc.url>
-            <![CDATA[jdbc:mysql://127.0.0.1:3306/${jdbc.database.name}?autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]>
+            <![CDATA[jdbc:postgresql://192.168.0.116:5432/${jdbc.database.name}?autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8]]>
         </jdbc.url>
 
     </properties>
@@ -229,6 +229,13 @@
 		    <version>2.4</version>    
 		    <classifier>jdk15</classifier>    
 		</dependency> 
+				
+		<dependency>
+      		<groupId>postgresql</groupId>
+      		<artifactId>postgresql</artifactId>
+      		<version>9.1-901.jdbc4</version>
+    	</dependency>
+			
     </dependencies>
 
 

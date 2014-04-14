@@ -10,7 +10,7 @@ import javax.persistence.Transient;
  * Date: 2/20/13
  */
 @Entity
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue
@@ -19,8 +19,18 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
 
-    public Long getId() {
+    
+    public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Long getId() {
         return id;
     }
 

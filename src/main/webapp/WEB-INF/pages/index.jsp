@@ -28,7 +28,7 @@
     		$.ajax({
 	            type: "get",
 	            dataType: "json",
-	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/hostInfo/hostStatusInfoService/allHost/1",
+	            url: "http://staging.marketboomer.cn:18080/monitorserver/services/hostInfo/hostStatusInfoService/allHost/1",
 	            complete :function() {
 	            },
 	            success: function(hostInfoArray){
@@ -51,7 +51,7 @@
     		
 			$.ajax({
 				type: "POST",
-				url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/create",
+				url: "http://staging.marketboomer.cn:18080/monitorserver/services/command/userCommandService/create",
 				data: JSON.stringify({hostMacAddress:macAddress,commandStr:"tasklist",status:"Created"}),
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
@@ -67,7 +67,7 @@
     		$.ajax({
 	            type: "get",
 	            dataType: "json",
-	            url: "http://127.0.0.1:8090/MonitorServer-1.0/services/command/userCommandService/allcommand/"+mac_address,
+	            url: "http://staging.marketboomer.cn:18080/monitorserver/services/command/userCommandService/allcommand/"+mac_address,
 	            complete :function() {
 	            },
 	            success: function(commandArray){

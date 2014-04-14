@@ -2,9 +2,14 @@ package com.luckyryan.sample.dao.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class UserCommand {
@@ -28,11 +33,34 @@ public class UserCommand {
 	private Date endDate;
 	private String status;
 	
+	@Column(name="resultStr",length=24000) 
 	private String resultStr;
 	
 	private String endCommandClass;
 	private String endCommandMethod;
 	private String endCommandParam;
+	
+	 // optional=true：可选，表示此对象可以没有，可以为null；false表示必须存在
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "userId")
+	private UserEntity user;
+    
+    @ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE }, fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "hostId")
+    private HostStatic host;
+	
+    public HostStatic getHost() {
+		return host;
+	}
+	public void setHost(HostStatic host) {
+		this.host = host;
+	}
+	public UserEntity getUser() {
+		return user;
+	}
+	public void setUser(UserEntity user) {
+		this.user = user;
+	}
 	public Long getId() {
 		return id;
 	}

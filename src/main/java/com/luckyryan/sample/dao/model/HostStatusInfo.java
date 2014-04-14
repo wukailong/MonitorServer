@@ -1,8 +1,11 @@
 package com.luckyryan.sample.dao.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class HostStatusInfo {
@@ -10,14 +13,32 @@ public class HostStatusInfo {
 	@Id
     @GeneratedValue
 	private Long id;
-	private String hostname;
 	private int cpuCount;
 	private double cpuTotalUsed;
 	private double totalMem;
 	private double freeMem;
+	private String status;
 	
+	private String hostname;
 	private String macAddress;
 	
+	@OneToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name="hostId")
+    private HostStatic host;
+	
+	
+	public HostStatic getHost() {
+		return host;
+	}
+	public void setHost(HostStatic host) {
+		this.host = host;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public Long getId() {
 		return id;
 	}
