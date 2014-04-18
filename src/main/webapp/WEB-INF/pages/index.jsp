@@ -8,40 +8,14 @@
 	
     <link href='<c:url value="/main/css/ui.jqgrid.css"/>' type="text/css" rel="stylesheet"></link>
 	<link href='<c:url value="/main/css/jquery.ui.theme.css"/>' type="text/css" rel="stylesheet"></link>
+	<link href='<c:url value="/main/css/main.css"/>' type="text/css" rel="stylesheet"></link>
 	
-	<style type="text/css"> 
-		.window{ 
-			width:250px; 
-			background-color:#d0def0; 
-			position:absolute; 
-			padding:2px; 
-			margin:5px; 
-			display:none; 
-			} 
-		.content{ 
-			height:150px; 
-			background-color:#FFF; 
-			font-size:14px; 
-			overflow:auto; 
-			} 
-			.title{ 
-				padding:2px; 
-				color:#0CF; 
-				font-size:14px; 
-				} 
-		.title img{ 
-				float:right; 
-				} 
-	</style> 
-    
 	<script type="text/javascript" src='<c:url value="/main/js/jquery-1.11.0.min.js"></c:url>'></script>
     <script type="text/javascript" src='<c:url value="/main/js/jquery.timer.js"></c:url>'></script>
 	<script type="text/javascript" src='<c:url value="/main/js/jquery.jqGrid.min.js"></c:url>'></script>
 	<script src="js/window.js" type="text/javascript"></script>
     <script type="text/javascript">
     
-    	var mac_address = '2C:26:20:52:41:53';
-    	
     	$(document).ready(function(){
 		
 			$("#hostInfoTable").jqGrid({ 
@@ -124,23 +98,12 @@
 	            complete :function() {
 	            },
 	            success: function(hostInfoArray){
-					$("#statusPanel1").html(JSON.stringify(hostInfoArray));
-	            	
-	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Host Name</td><td>Mac Address</td><td>CPU Total Used</td><td>Command</td></tr>";
-	            		
-					//$("#hostInfoTable").trigger("reloadGrid");
-					$("#hostInfoTable").jqGrid("clearGridData");
-						
-	            	$.each(hostInfoArray, function(i, hostInfo){   
-						$("#hostInfoTable").jqGrid('addRowData', i+1, hostInfo);
 					
-	            	    tablecontent += "<tr><td>"+hostInfo.hostname+"</td><td>"+hostInfo.macAddress+
-	            		"</td><td>"+hostInfo.cpuTotalUsed+"</td><td><button type='button' onclick='runCommand(\"" + hostInfo.macAddress + "\")'>Run Tasklist Command</button></td></tr>";
-	            	});  	
-	            	
-	            	tablecontent += "</table>";
-	            	
-	            	$("#statusPanel2").html(tablecontent);
+					$("#hostInfoTable").jqGrid("clearGridData");
+					$.each(hostInfoArray, function(i, hostInfo){   
+						$("#hostInfoTable").jqGrid('addRowData', i+1, hostInfo);
+					});
+					
 	            }});
     	}
     	
@@ -170,28 +133,16 @@
     		$.ajax({
 	            type: "get",
 	            dataType: "json",
-	            url: "/MonitorServer-1.0/services/command/userCommandService/allcommand/"+mac_address,
+	            url: "/MonitorServer-1.0/services/command/userCommandService/allcommand/hostId",
 	            complete :function() {
 	            },
 	            success: function(commandArray){
-	            	$("#statusPanel3").html(JSON.stringify(commandArray));
-	            	
-	            	var tablecontent = "<table border='1'><tr style='font-weight:bold;'><td>Id</td><td>Mac Address</td><td>Command</td><td>Status</td><td>Result</td><td>End Date</td></tr>";
 	            		
 					$("#commandsTable").jqGrid("clearGridData");
-						
-	            	$.each(commandArray, function(i, command){   
+					$.each(commandArray, function(i, command){   
 						$("#commandsTable").jqGrid('addRowData', i+1, command);
 					
-	            	    tablecontent += "<tr><td>"+command.id+"</td><td>"+command.hostMacAddress+"</td><td>"+
-	            	    	command.commandStr+"</td><td>" +	            	    	 
-	            	    	command.status+"</td><td>" + 
-	            	    	"<span title='" + command.resultStr + "'>Command Result</span></td><td>" + command.endDate + "</td></tr>";
-	            	});  	
-	            	
-	            	tablecontent += "</table>";
-	            	
-	            	$("#statusPanel4").html(tablecontent);
+	            	});
 	            }});
     	}
     
@@ -201,38 +152,25 @@
 </head>
 <body>
 
-<div class="window" id="center" style="z-index:999"> 
-	<div id="title" class="title">Run Command Window</div> 
-	<div class="content">	
-		<input type='hidden' id='cmdinputId'/>
-		<input type='hidden' id='cmdinputMacAddress'/>
-		Command Input: <input type='text' id='cmdinput' style='width:200' />
-		
-		<button id='cmdInputBtn' type='button' onclick='runCommand()'>Run Command</button>
-		<button id='close' type='button' onclick='closePopWindow()'>Close</button>
+	<div class="window" id="center" style="z-index:999"> 
+		<div id="title" class="title">Run Command Window</div> 
+		<div class="content">	
+			<input type='hidden' id='cmdinputId'/>
+			<input type='hidden' id='cmdinputMacAddress'/>
+			Command Input: <input type='text' id='cmdinput' style='width:200' />
+			
+			<button id='cmdInputBtn' type='button' onclick='runCommand()'>Run Command</button>
+			<button id='close' type='button' onclick='closePopWindow()'>Close</button>
+		</div> 
 	</div> 
-</div> 
-
-<div style="text-align:right;margin-right:10px;">
-	<a href="agent-download" target="blank"><button>Download Agent 1.0</button></a>
-</div>  
-
-<table id="hostInfoTable"></table>
-
-<table id="commandsTable"></table>
-
-<div style="display:none;">
-<h1>Host Status Info List: </h1>
-
-<div id="statusPanel2"> Test2 </div>
-<div id="statusPanel1"> Test1 </div>
-
-<h1>User Command List: </h1>
-
-<div id="statusPanel4"> Test4 </div>
-<div id="statusPanel3"> Test3 </div>
-</div>
-
+	
+	<div style="text-align:right;margin-right:10px;">
+		<a href="agent-download" target="blank"><button>Download Agent 1.0</button></a>
+	</div>  
+	
+	<table id="hostInfoTable"></table>
+		
+	<table id="commandsTable"></table>
 
 </body>
 </html>

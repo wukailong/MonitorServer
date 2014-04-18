@@ -1,0 +1,25 @@
+.window{ 
+	width:250px; 
+	background-color:#d0def0; 
+	position:absolute; 
+	padding:2px; 
+	margin:5px; 
+	display:none; 
+} 
+
+.content{ 
+	height:150px; 
+	background-color:#FFF; 
+	font-size:14px; 
+	overflow:auto; 
+} 
+			
+.title{ 
+	padding:2px; 
+	color:#0CF; 
+	font-size:14px; 
+}
+ 
+.title img{ 
+	float:right; 
+} 
