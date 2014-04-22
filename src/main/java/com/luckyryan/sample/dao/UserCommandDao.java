@@ -16,4 +16,7 @@ public interface UserCommandDao extends CrudRepository<UserCommand,Long> {
 	
 	@Query("select u from UserCommand u order by u.creationDate desc")  
 	public List<UserCommand> getAll() throws InvalidUserException;
+	
+	@Query("select u from UserCommand u where u.hostMacAddress= :macAddress order by u.creationDate desc")  
+	public List<UserCommand> getAllByMacAddress(@Param("macAddress") String macAddress) throws InvalidUserException;
 }

@@ -42,7 +42,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 	public List<UserCommand> getAll(String macAddress)
 			throws InvalidUserException {
 		
-		return dao.getAll();
+		return dao.getAllByMacAddress(macAddress);
 	}
 
 	

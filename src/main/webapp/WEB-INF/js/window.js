@@ -6,19 +6,25 @@ var windowWidth;
 var popWidth; 
 //获取弹窗高度 
 var popHeight; 
-function init(btn){ 
+function init(){ 
    windowHeight=$(window).height(); 
    windowWidth=$(window).width(); 
-   popHeight=$(btn).height(); 
-   popWidth=$(btn).width(); 
+   popHeight=$(".window").height(); 
+   popWidth=$(".window").width(); 
 } 
 //关闭窗口的方法 
-function closePopWindow(closebth) {	
-	$(closebth).parent().parent().hide("slow"); 
+function closePopWindow() {	
+	$(".close").click(function() {
+		$(".window").hide("slow"); 
+	});
+}
+
+function closePopWindowManual() {	
+	$(".window").hide("slow"); 
 }
 	
 //定义弹出居中窗口的方法 
-function popCenterWindow(btn){ 
+function popCenterWindow(){ 
 	init(); 
 	//计算弹出窗口的左上角Y的偏移量 
 	var popY=windowHeight/2 - 200; 
