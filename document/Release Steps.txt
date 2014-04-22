@@ -1,4 +1,16 @@
+-properties.properties
 http://staging.marketboomer.cn:18080/monitorserver/main/index
+
+-db.properties
+jdbc.url=jdbc:postgresql://192.168.11.22:5432/sample_monitor?autoReconnect=true&amp;createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8
+
+jdbc.username=postgres
+
+jdbc.password=whitedove
+
+-constantsutil.properties
+agent.download.path=E:/monitorserverworkspace/agent/Agent.zip
+agent.download.filename=Agent.zip
 
 Release Server steps:
 
